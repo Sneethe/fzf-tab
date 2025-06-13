@@ -59,6 +59,11 @@ else
   # FIXME: can't get the correct width of CJK characters.
   comp_length=$( command perl -ne 's/\x1b\[[0-9;]*m//g;s/\x00//g; $m= length() if $m < length(); END { print $m }' < $tmp_dir/completions.$$ )
 fi
+
+if zstyle -t ":fzf-tab:$_ftb_curcontext" popup-fit-preview && zstyle -m ":fzf-tab:$_ftb_curcontext" fzf-preview '*'; then
+  comp_length=$(( comp_length * 2 ))
+fi
+
 comp_length=$(( comp_length + $popup_pad[1] ))
 
 local popup_height popup_y popup_width popup_x adjust_height
